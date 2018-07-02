@@ -10,5 +10,10 @@ namespace SeasonStats.Model
         {
             this.Name = Name;
         }
+
+        public bool Equals(Player player)
+        {
+            return Name == player.Name;
+        }
     }
 }

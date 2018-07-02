@@ -1,34 +1,26 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
+using System.Linq;
 
 namespace SeasonStats.Model
 {
-    class Match
+    public class Match
     {
-        public Player player1 { get; }
-        public Player player2 { get; }
-        private List<Set> games { get; set; }
+        public Player Player1 { get; }
+        public Player Player2 { get; }
+        public List<Set> sets;
 
-        public int P1MatchScore
+        public int Player1Score => sets.Count(set => set.Player1Score > set.Player2Score);
+        public int Player2Score => sets.Count(set => set.Player2Score > set.Player1Score);
+
+        public void AddSet(Set set)
         {
-            get
-            {
-                int counter = 0;
+            if (!set.Player1.Equals(Player1) || !set.Player2.Equals(Player2)) throw new Exception("Set players doesn't match to match players");
+            if (sets.Count >= 7) throw new Exception("Number of sets in match has been exceeded");
+            if (set == null) throw new ArgumentNullException();
 
-                foreach (Set set in games)
-                    if (set.P1SetScore > set.P2SetScore) counter++;
-
-                return counter;
-            }
-        }
-
-        public void AddSetToMatch(Set set)
-        {
-            if (!set.player1.Equals(player1) || !set.player2.Equals(player2))
-                throw new Exception("Set players doesn't match to match players");
-            if (games.Count >= 7) throw new Exception("Number of sets in match has been exceeded");
-            games.Add(set);
+            sets.Add(set);
         }
     }
 }

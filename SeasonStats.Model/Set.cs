@@ -4,21 +4,22 @@ using System.Text;
 
 namespace SeasonStats.Model
 {
-    class Set
+    public class Set
     {
-        public Player player1 { get; }
-        public Player player2 { get; }
-        public int P1SetScore { get; }
-        public int P2SetScore { get; }
+        public Player Player1 { get; }
+        public Player Player2 { get; }
+        public int Player1Score { get; }
+        public int Player2Score { get; }
 
-        public Set(Player player1, Player player2, int P1SetScore, int P2SetScore)
+        public Set(Player player1, Player player2, int player1Score, int player2Score)
         {
-            if (P1SetScore >= 0 && P1SetScore <= 11 && P2SetScore >= 0 && P2SetScore <= 11)
-            {
-                this.P1SetScore = P1SetScore;
-                this.P2SetScore = P2SetScore;
-            }
-            else throw new Exception("Invalid score");
+            if (player1Score < 0 && player1Score > 11 && player2Score < 0 && player2Score > 11)
+                throw new ArgumentException("Invalid score");
+            if (player1 == null || player2 == null)
+                throw new ArgumentNullException();
+
+            Player1Score = player1Score;
+            Player2Score = player2Score;
         }
     }
 }
