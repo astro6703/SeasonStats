@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Text;
 using System.Linq;
 
 namespace SeasonStats.Model
@@ -9,7 +8,7 @@ namespace SeasonStats.Model
     {
         public Player Player1 { get; }
         public Player Player2 { get; }
-        public List<Set> sets;
+        private List<Set> sets;
 
         public int Player1Score => sets.Count(set => set.Player1Score > set.Player2Score);
         public int Player2Score => sets.Count(set => set.Player2Score > set.Player1Score);

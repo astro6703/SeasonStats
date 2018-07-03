@@ -13,10 +13,8 @@ namespace SeasonStats.Model
 
         public Set(Player player1, Player player2, int player1Score, int player2Score)
         {
-            if (player1Score < 0 && player1Score > 11 && player2Score < 0 && player2Score > 11)
-                throw new ArgumentException("Invalid score");
-            if (player1 == null || player2 == null)
-                throw new ArgumentNullException();
+            if (player1Score < 0 && player1Score > 11 && player2Score < 0 && player2Score > 11) throw new ArgumentException("Invalid score");
+            if (player1 == null || player2 == null) throw new ArgumentNullException();
 
             Player1Score = player1Score;
             Player2Score = player2Score;
