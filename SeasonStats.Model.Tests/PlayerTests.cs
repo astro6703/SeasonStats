@@ -8,17 +8,29 @@ namespace SeasonStats.Model.Tests
     public class PlayerTests
     {
         [Fact]
-        public void PlayersAreEqual()
+        public void ConstructorShouldThrowArgumentNullException()
         {
-            Player player1 = new Player("Gleb");
-            Assert.True(player1.Equals(new Player("Gleb")));
+            string str = null;
+
+            Assert.Throws<ArgumentNullException>(() => new Player(str));
         }
 
         [Fact]
-        public void PlayersAreNotEqual()
+        public void EqualsReturnsTrueForPlayersWithEqualNames()
         {
-            Player player1 = new Player("Gleb");
-            Assert.False(player1.Equals(new Player("NotGleb")));
+            var player1 = new Player("Gleb");
+            var player2 = new Player("Gleb");
+
+            Assert.Equal(player1, player2);
+        }
+
+        [Fact]
+        public void EqualsReturnsFalseForPlayersWithDifferentNames()
+        {
+            var player1 = new Player("Gleb");
+            var player2 = new Player("Not Gleb");
+
+            Assert.NotEqual(player1, player2);
         }
     }
 }

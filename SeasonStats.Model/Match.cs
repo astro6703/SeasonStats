@@ -13,7 +13,7 @@ namespace SeasonStats.Model
 
         public Match(int MaxSets)
         {
-            if (MaxSets != 3 && MaxSets != 5 && MaxSets != 7) throw new ArgumentException();
+            if (MaxSets != 3 && MaxSets != 5 && MaxSets != 7) throw new ArgumentException("Wrong maximal number of sets");
 
             MaximalNumberOfSets = MaxSets;
         }
@@ -25,16 +25,27 @@ namespace SeasonStats.Model
         {
             if (set == null) throw new ArgumentNullException();
             if (!set.IsValid()) throw new Exception("Given set is not valid");
-            if (sets.Count == 0)
-            {
-                Player1 = set.Player1;
-                Player2 = set.Player2;
-            }
-            if (!set.Player1.Equals(Player1) || !set.Player2.Equals(Player2)) throw new Exception("Match players doesn't match to match players");
-            if ((Player1Score == (MaximalNumberOfSets + 1) / 2) || Player1Score == (MaximalNumberOfSets + 1) / 2)
-                throw new Exception("The match has already got a winner");
+            if (sets.Count == 0) SetUpMatchPlayers(set);
+            if (!ArePlayersEqual(set)) throw new Exception("Match players doesn't match to match players");
+            if (IsMatchFinished()) throw new Exception("The match has already been finished");
 
             sets.Add(set);
+        }
+
+        private bool IsMatchFinished()
+        {
+            return ((Player1Score == (MaximalNumberOfSets + 1) / 2) || Player1Score == (MaximalNumberOfSets + 1) / 2);
+        }
+
+        private bool ArePlayersEqual(Set set)
+        {
+            return set.Player1.Equals(Player1) && set.Player2.Equals(Player2);
+        }
+
+        public void SetUpMatchPlayers(Set set)
+        {
+            Player1 = set.Player1;
+            Player2 = set.Player2;
         }
     }
 }

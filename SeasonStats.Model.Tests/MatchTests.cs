@@ -7,31 +7,79 @@ namespace SeasonStats.Model.Tests
     public class MatchTests
     {
         [Fact]
-        public void AddingSetWithDifferentPlayersThrowsException()
+        public void SetUpMatchPlayersCorrectly()
         {
-            Player player1 = new Player("1");
-            Player player2 = new Player("2");
-            Player player3 = new Player("3");
-            Match match = new Match(5);
-            match.AddSet(new Set(player1, player2, 11, 2));
-            match.AddSet(new Set(player1, player2, 11, 2));
-            Assert.Throws<Exception>(() => match.AddSet(new Set(player1, player3, 2, 11)));
+            var player1 = new Player("1");
+            var player2 = new Player("2");
+            var match = new Match(3);
+
+            match.AddSet(new Set(player1, player2, 11, 5));
+
+            Assert.Equal(player1, match.Player1);
+            Assert.Equal(player2, match.Player2);
         }
 
         [Fact]
-        public void AddingNullSetThrowsArgumentNullException()
+        public void AddSetWithDifferentPlayersThrowsException()
+        {
+            var player1 = new Player("1");
+            var player2 = new Player("2");
+            var player3 = new Player("3");
+            var match = new Match(5);
+
+            match.AddSet(new Set(player1, player2, 11, 2));
+            match.AddSet(new Set(player1, player2, 11, 2));
+            var exception = Record.Exception(() => match.AddSet(new Set(player1, player3, 2, 11)));
+
+            Assert.IsType<Exception>(exception);
+            Assert.Equal("Match players doesn't match to match players", exception.Message);
+        }
+
+        [Fact]
+        public void AddSetWithValidArgumentThrowsException()
+        {
+            var player1 = new Player("1");
+            var player2 = new Player("2");
+            var match = new Match(3);
+
+            var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 5, 5)));
+
+            Assert.IsType<Exception>(exception);
+            Assert.Equal("Given set is not valid", exception.Message);
+        }
+
+        [Fact]
+        public void AddSetWithNullArgumentThrowsArgumentNullException()
         {
             Set set = null;
-            Match match = new Match(3);
+            var match = new Match(3);
+
             Assert.Throws<ArgumentNullException>(() => match.AddSet(set));
         }
 
         [Fact]
-        public void CountFinalScore()
+        public void AddSetThrowsExceptonWhenAddingSetToAFinishedMatch()
         {
-            Player player1 = new Player("Gleb");
-            Player player2 = new Player("NotGleb");
-            Match match = new Match(7);
+            var player1 = new Player("Gleb");
+            var player2 = new Player("Not Gleb");
+            var match = new Match(5);
+
+            match.AddSet(new Set(player1, player2, 11, 2));
+            match.AddSet(new Set(player1, player2, 11, 2));
+            match.AddSet(new Set(player1, player2, 11, 2));
+            var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 11, 2)));
+
+            Assert.IsType<Exception>(exception);
+            Assert.Equal("The match has already been finished", exception.Message);
+        }
+
+        [Fact]
+        public void PlayersScorePropertiesShouldReturnPreciseScore()
+        {
+            var player1 = new Player("Gleb");
+            var player2 = new Player("Not Gleb");
+            var match = new Match(7);
+
             match.AddSet(new Set(player1, player2, 11, 2));
             match.AddSet(new Set(player1, player2, 11, 2));
             match.AddSet(new Set(player1, player2, 11, 2));
@@ -39,20 +87,9 @@ namespace SeasonStats.Model.Tests
             match.AddSet(new Set(player1, player2, 1, 11));
             match.AddSet(new Set(player1, player2, 1, 11));
             match.AddSet(new Set(player1, player2, 11, 1));
+
             Assert.Equal(4, match.Player1Score);
             Assert.Equal(3, match.Player2Score);
-        }
-
-        [Fact]
-        public void ThrowsExceptonWhenAddingSetToAFinishedMatch()
-        {
-            Player player1 = new Player("Gleb");
-            Player player2 = new Player("NotGleb");
-            Match match = new Match(5);
-            match.AddSet(new Set(player1, player2, 11, 2));
-            match.AddSet(new Set(player1, player2, 11, 2));
-            match.AddSet(new Set(player1, player2, 11, 2));
-            Assert.Throws<Exception>(() => match.AddSet(new Set(player1, player2, 11, 2)));
         }
     }
 }

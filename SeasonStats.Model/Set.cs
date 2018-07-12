@@ -24,10 +24,18 @@ namespace SeasonStats.Model
 
         public bool IsValid()
         {
-            if (((Player1Score == 11 ^ Player2Score == 11) && Math.Abs(Player1Score - Player2Score) >= 2) ||
-                (Player1Score >= 10 && Player2Score >= 10 && Math.Abs(Player1Score - Player2Score) == 2))
-                return true;
-            else return false;
+            return IsValidForMainTime() || IsValidForOvertime();
+        }
+
+        private bool IsValidForMainTime()
+        {
+            return ((Player1Score == 11 ^ Player2Score == 11) && 
+                    Math.Abs(Player1Score - Player2Score) >= 2);
+        }
+
+        private bool IsValidForOvertime()
+        {
+            return Player1Score >= 10 && Player2Score >= 10 && Math.Abs(Player1Score - Player2Score) == 2;
         }
     }
 }

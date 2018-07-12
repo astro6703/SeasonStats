@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 
 namespace SeasonStats.Model
 {
@@ -6,14 +7,22 @@ namespace SeasonStats.Model
     {
         public string Name { get; }
 
-        public Player(string Name)
+        public Player(string name)
         {
-            this.Name = Name;
+            Name = name ?? throw new ArgumentNullException(nameof(name));
         }
 
-        public bool Equals(Player player)
+        public override bool Equals(object obj)
         {
-            return Name == player.Name;
+            var otherPlayer = obj as Player;
+
+            if (otherPlayer == null) return false;
+            return Name == otherPlayer.Name;
+        }
+
+        public override int GetHashCode()
+        {
+            return 539060726 + EqualityComparer<string>.Default.GetHashCode(Name);
         }
     }
 }
