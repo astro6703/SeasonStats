@@ -31,7 +31,7 @@ namespace SeasonStats.Model.Tests
             match.AddSet(new Set(player1, player2, 11, 2));
             var exception = Record.Exception(() => match.AddSet(new Set(player1, player3, 2, 11)));
 
-            Assert.IsType<Exception>(exception);
+            Assert.IsType<InvalidOperationException>(exception);
             Assert.Equal("Match players doesn't match to match players", exception.Message);
         }
 
@@ -44,7 +44,7 @@ namespace SeasonStats.Model.Tests
 
             var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 5, 5)));
 
-            Assert.IsType<Exception>(exception);
+            Assert.IsType<InvalidOperationException>(exception);
             Assert.Equal("Given set is not valid", exception.Message);
         }
 
@@ -58,16 +58,30 @@ namespace SeasonStats.Model.Tests
         }
 
         [Fact]
-        public void AddSecondSetToOneSetMatchShouldThrowException()
+        public void AddSecondSetToOneSetMatchWhenFirstPlayerWonShouldThrowException()
+        {
+            var player1 = new Player("1");
+            var player2 = new Player("2");
+            var match = new Match(1);
+
+            match.AddSet(new Set(player1, player2, 11, 5));
+            var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 11, 5)));
+
+            Assert.IsType<InvalidOperationException>(exception);
+            Assert.Equal("The match has already been finished", exception.Message);
+        }
+
+        [Fact]
+        public void AddSecondSetToOneSetMatchWhenSecondPlayerWonShouldThrowException()
         {
             var player1 = new Player("1");
             var player2 = new Player("2");
             var match = new Match(1);
 
             match.AddSet(new Set(player1, player2, 5, 11));
-            var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 11, 5)));
+            var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 5, 11)));
 
-            Assert.IsType<Exception>(exception);
+            Assert.IsType<InvalidOperationException>(exception);
             Assert.Equal("The match has already been finished", exception.Message);
         }
 
@@ -92,7 +106,7 @@ namespace SeasonStats.Model.Tests
             match.AddSet(new Set(player1, player2, 11, 2));
             var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 11, 2)));
 
-            Assert.IsType<Exception>(exception);
+            Assert.IsType<InvalidOperationException>(exception);
             Assert.Equal("The match has already been finished", exception.Message);
         }
 
