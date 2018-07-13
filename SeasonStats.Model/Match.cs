@@ -13,7 +13,7 @@ namespace SeasonStats.Model
 
         public Match(int MaxSets)
         {
-            if (MaxSets != 3 && MaxSets != 5 && MaxSets != 7) throw new ArgumentException("Wrong maximal number of sets");
+            if (MaxSets != 1 && MaxSets != 3 && MaxSets != 5 && MaxSets != 7) throw new ArgumentException("Wrong maximal number of sets");
 
             MaximalNumberOfSets = MaxSets;
         }
@@ -34,7 +34,8 @@ namespace SeasonStats.Model
 
         private bool IsMatchFinished()
         {
-            return ((Player1Score == (MaximalNumberOfSets + 1) / 2) || Player1Score == (MaximalNumberOfSets + 1) / 2);
+            if (MaximalNumberOfSets == 1) return (Player1Score == MaximalNumberOfSets || Player2Score == MaximalNumberOfSets);
+            else return ((Player1Score == (MaximalNumberOfSets + 1) / 2) || Player1Score == (MaximalNumberOfSets + 1) / 2);
         }
 
         private bool ArePlayersEqual(Set set)

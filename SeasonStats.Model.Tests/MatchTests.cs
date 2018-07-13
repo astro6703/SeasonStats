@@ -49,6 +49,29 @@ namespace SeasonStats.Model.Tests
         }
 
         [Fact]
+        public void ConstructorShouldThrowArgumentException()
+        {
+            var exception = Record.Exception(() => new Match(2));
+
+            Assert.IsType<ArgumentException>(exception);
+            Assert.Equal("Wrong maximal number of sets", exception.Message);
+        }
+
+        [Fact]
+        public void AddSecondSetToOneSetMatchShouldThrowException()
+        {
+            var player1 = new Player("1");
+            var player2 = new Player("2");
+            var match = new Match(1);
+
+            match.AddSet(new Set(player1, player2, 5, 11));
+            var exception = Record.Exception(() => match.AddSet(new Set(player1, player2, 11, 5)));
+
+            Assert.IsType<Exception>(exception);
+            Assert.Equal("The match has already been finished", exception.Message);
+        }
+
+        [Fact]
         public void AddSetWithNullArgumentThrowsArgumentNullException()
         {
             Set set = null;
