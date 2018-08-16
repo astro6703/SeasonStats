@@ -1,11 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-using Microsoft.AspNetCore.Builder;
+﻿using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Options;
+using MongoDB.Driver;
+using SeasonStats.Model;
 
 namespace SeasonStats
 {
@@ -21,6 +20,19 @@ namespace SeasonStats
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            services.AddOptions();
+
+            services.Configure<MongoConnectionDetails>(Configuration.GetSection("MongoDb"));
+
+            services.AddSingleton<IPlayerRepository, PlayerRepository>();
+            services.AddSingleton<IMatchRepository, MatchRepository>();
+            services.AddSingleton(sp =>
+            {
+                var connectionDetails = sp.GetService<IOptions<MongoConnectionDetails>>();
+
+                return new MongoClient(connectionDetails.Value.ConnectionString);
+            });
+
             services.AddMvc();
         }
 
