@@ -1,5 +1,4 @@
 ﻿using System;
-using SeasonStats.Model;
 using Xunit;
 
 
