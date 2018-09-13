@@ -7,9 +7,9 @@ namespace SeasonStats.Model
 {
     public class MatchRepository : IMatchRepository
     {
-        private readonly MongoClient client;
+        private readonly IMongoClient client;
 
-        public MatchRepository(MongoClient client)
+        public MatchRepository(IMongoClient client)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
         }

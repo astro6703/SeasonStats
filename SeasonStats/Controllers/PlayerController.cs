@@ -41,5 +41,13 @@ namespace SeasonStats.Controllers
         {
             return View();
         }
+
+        [Route("all")]
+        public async Task<ActionResult> ViewAll()
+        {
+            ViewBag.Players = await GetAll();
+
+            return View("AllPlayers");
+        }
     }
 }

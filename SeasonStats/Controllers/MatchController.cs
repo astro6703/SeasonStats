@@ -55,13 +55,22 @@ namespace SeasonStats.Controllers
             for (int i = 0; i < scores.Length; i += 2)
             {
                 var set = new Set(player1, player2, scores[i], scores[i + 1]);
-
-                match.AddSet(set);
+                if (set.IsValid() && !match.IsFinished())
+                    match.AddSet(set);
             }
 
-            await matchRepository.SaveOneAsync(match);
+            if (match.IsFinished())
+                await matchRepository.SaveOneAsync(match);
 
             return RedirectToAction("Index", "Home");
+        }
+        
+        [Route("all")]
+        public async Task<ActionResult> ViewAll()
+        {
+            ViewBag.Matches = await GetAll();
+
+            return View("AllMatches");
         }
     }
 }

@@ -37,12 +37,12 @@ namespace SeasonStats.Model
             if (set == null) throw new ArgumentNullException();
             if (!set.IsValid()) throw new InvalidOperationException("Given set is not valid");
             if (!ArePlayersEqual(set)) throw new InvalidOperationException("Match players doesn't match to match players");
-            if (IsMatchFinished()) throw new InvalidOperationException("The match has already been finished");
+            if (IsFinished()) throw new InvalidOperationException("The match has already been finished");
 
             Sets.Add(set);
         }
 
-        private bool IsMatchFinished()
+        public bool IsFinished()
         {
             return ((Player1Score == (MaximalNumberOfSets + 1) / 2) || Player2Score == (MaximalNumberOfSets + 1) / 2);
         }
@@ -50,6 +50,28 @@ namespace SeasonStats.Model
         private bool ArePlayersEqual(Set set)
         {
             return !Sets.Any() || set.Player1.Equals(Player1) && set.Player2.Equals(Player2);
+        }
+
+        public override bool Equals(object obj)
+        {
+            var match = obj as Match;
+
+            if (match == null) return false;
+
+            if (match.Sets.Count != Sets.Count || match.MaximalNumberOfSets != MaximalNumberOfSets) return false;
+
+            for (int i = 0; i < Sets.Count(); i++)
+                if (!Sets[i].Equals(match.Sets[i])) return false;
+
+            return true;
+        }
+
+        public override int GetHashCode()
+        {
+            var hashCode = -412360621;
+            hashCode = hashCode * -1521134295 + MaximalNumberOfSets.GetHashCode();
+            hashCode = hashCode * -1521134295 + EqualityComparer<List<Set>>.Default.GetHashCode(Sets);
+            return hashCode;
         }
     }
 }

@@ -10,9 +10,9 @@ namespace SeasonStats.Model
 {
     public class PlayerRepository : IPlayerRepository
     {
-        private readonly MongoClient client;    
+        private readonly IMongoClient client;    
 
-        public PlayerRepository(MongoClient client)
+        public PlayerRepository(IMongoClient client)
         {
             this.client = client ?? throw new ArgumentNullException(nameof(client));
         }
@@ -21,8 +21,10 @@ namespace SeasonStats.Model
         {
             var db = client.GetDatabase("SeasonStats");
 
-            return await db.GetCollection<Player>("Players")
-                .AsQueryable()
+            var collection = db.GetCollection<Player>("Players")
+                .AsQueryable();
+
+            return await collection
                 .Where(x => x.Name.ToLower() == name.ToLower())
                 .FirstOrDefaultAsync();
         }

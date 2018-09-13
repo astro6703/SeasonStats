@@ -26,7 +26,7 @@ namespace SeasonStats
 
             services.AddSingleton<IPlayerRepository, PlayerRepository>();
             services.AddSingleton<IMatchRepository, MatchRepository>();
-            services.AddSingleton(sp =>
+            services.AddSingleton<IMongoClient>(sp =>
             {
                 var connectionDetails = sp.GetService<IOptions<MongoConnectionDetails>>();
 

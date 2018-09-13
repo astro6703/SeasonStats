@@ -35,5 +35,17 @@ namespace SeasonStats.Model
         {
             return Player1Score >= 10 && Player2Score >= 10 && Math.Abs(Player1Score - Player2Score) == 2;
         }
+
+        public override bool Equals(object obj)
+        {
+            var set = obj as Set;
+
+            if (set == null) return false;
+
+            return Player1Score == set.Player1Score && 
+                   Player2Score == set.Player2Score && 
+                   Player1 == set.Player1 &&
+                   Player2 == set.Player2;
+        }
     }
 }
