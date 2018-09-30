@@ -60,10 +60,7 @@ namespace SeasonStats.Model
 
             if (match.Sets.Count != Sets.Count || match.MaximalNumberOfSets != MaximalNumberOfSets) return false;
 
-            for (int i = 0; i < Sets.Count(); i++)
-                if (!Sets[i].Equals(match.Sets[i])) return false;
-
-            return true;
+            return Sets.SequenceEqual(match.Sets);
         }
 
         public override int GetHashCode()

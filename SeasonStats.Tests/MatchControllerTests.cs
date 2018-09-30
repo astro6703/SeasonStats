@@ -1,8 +1,10 @@
-﻿using SeasonStats.Model;
+﻿using System;
+using SeasonStats.Model;
 using SeasonStats.Controllers;
 using Xunit;
 using NSubstitute;
 using System.Threading.Tasks;
+using System.Collections.Generic;
 using MongoDB.Bson;
 
 namespace SeasonStats.Tests
@@ -10,7 +12,69 @@ namespace SeasonStats.Tests
     public class MatchControllerTests
     {
         [Fact]
-        public async Task MatchRepositoryGetAllGetsCalled()
+        public async Task CreateMatch_ThrowsExceptionWhenFirstArgumentIsNull()
+        {
+            var matchRepository = Substitute.For<MatchRepository>();
+            var playerRepository = Substitute.For<PlayerRepository>();
+            var matchController = new MatchController(matchRepository, playerRepository);
+
+            var scores = new int[] { 11, 5 };
+            var player2 = "Gleb";
+
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await matchController.CreateMatch(null, player2, scores));
+        }
+
+        [Fact]
+        public async Task CreateMatch_ThrowsExceptionWhenSecondArgumentIsNull()
+        {
+            var matchRepository = Substitute.For<MatchRepository>();
+            var playerRepository = Substitute.For<PlayerRepository>();
+            var matchController = new MatchController(matchRepository, playerRepository);
+
+            var scores = new int[] { 11, 5 };
+            var player1 = "Gleb";
+
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await matchController.CreateMatch(player1, null, scores));
+        }
+
+        [Fact]
+        public async Task CreateMatch_ThrowsExceptionWhenDidntFindFirstPlayerInDatabase()
+        {
+            var matchRepository = Substitute.For<MatchRepository>();
+            var playerRepository = Substitute.For<PlayerRepository>();
+            var matchController = new MatchController(matchRepository, playerRepository);
+
+            var notExistingPlayer = "sdfnsjdnf";
+            var existingPlayer = "Gleb";
+
+            playerRepository.GetOneAsync(notExistingPlayer).Returns((Player) null);
+            playerRepository.GetOneAsync(existingPlayer).Returns(new Player("Gleb") { Id = BsonObjectId.Create("5b72be99acf22118c84cf591") });
+
+            var scores = new int[] { 11, 5 };
+
+            await Assert.ThrowsAsync<KeyNotFoundException>(async () => await matchController.CreateMatch(notExistingPlayer, existingPlayer, scores));
+        }
+
+        [Fact]
+        public async Task CreateMatch_ThrowsExceptionWhenDidntFindSecondPlayerInDatabase()
+        {
+            var matchRepository = Substitute.For<MatchRepository>();
+            var playerRepository = Substitute.For<PlayerRepository>();
+            var matchController = new MatchController(matchRepository, playerRepository);
+
+            var notExistingPlayer = "sdfnsjdnf";
+            var existingPlayer = "Gleb";
+
+            playerRepository.GetOneAsync(notExistingPlayer).Returns((Player)null);
+            playerRepository.GetOneAsync(existingPlayer).Returns(new Player("Gleb") { Id = BsonObjectId.Create("5b72be99acf22118c84cf591") });
+
+            var scores = new int[] { 11, 5 };
+
+            await Assert.ThrowsAsync<KeyNotFoundException>(async () => await matchController.CreateMatch(existingPlayer, notExistingPlayer, scores));
+        }
+
+        [Fact]
+        public async Task GetAllReturnsMatchesFromRepository()
         {
             var playerRepository = Substitute.For<IPlayerRepository>();
             var matchRepository = Substitute.For<IMatchRepository>();
@@ -22,13 +86,12 @@ namespace SeasonStats.Tests
             matchController.GetAll().Returns(expected);
 
             var actual = await matchController.GetAll();
-            await matchRepository.Received().GetAllAsync();
 
             Assert.Equal(expected, actual);
         }
 
         [Fact]
-        public async Task PlayerAndMatchRepositoriesBehavesWellWhenCreatingBestOf1Match()
+        public async Task CreateMatchLooksUpPlayersAndSavesBestOf1Match()
         {
             var playerRepository = Substitute.For<IPlayerRepository>();
             var matchRepository = Substitute.For<IMatchRepository>();
@@ -51,7 +114,7 @@ namespace SeasonStats.Tests
         }
 
         [Fact]
-        public async Task PlayerAndMatchRepositoriesBehavesWellWhenCreatingBestOf3Match()
+        public async Task CreateMatchLooksUpPlayersAndSavesBestOf3Match()
         {
             var playerRepository = Substitute.For<IPlayerRepository>();
             var matchRepository = Substitute.For<IMatchRepository>();
@@ -76,7 +139,7 @@ namespace SeasonStats.Tests
         }
 
         [Fact]
-        public async Task PlayerAndMatchRepositoriesBehavesWellWhenCreatingBestOf7Match()
+        public async Task CreateMatchLooksUpPlayersAndSavesBestOf7Match()
         {
             var playerRepository = Substitute.For<IPlayerRepository>();
             var matchRepository = Substitute.For<IMatchRepository>();

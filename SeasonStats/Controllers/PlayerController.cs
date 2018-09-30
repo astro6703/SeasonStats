@@ -8,7 +8,7 @@ using SeasonStats.Model;
 
 namespace SeasonStats.Controllers
 {
-    [Produces("application/json")]
+    //[Produces("application/json")]
     [Route("api/Player")]
     public class PlayerController : Controller
     {
@@ -28,6 +28,8 @@ namespace SeasonStats.Controllers
         [HttpPost()]
         public async Task<ActionResult> SaveOne(string name)
         {
+            if (name == null) throw new ArgumentNullException(nameof(name));
+
             var player = new Player(name);
 
             if ((await repository.GetOneAsync(name)) == null)

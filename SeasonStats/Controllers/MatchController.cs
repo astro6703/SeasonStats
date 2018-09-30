@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using SeasonStats.Model;
 
 namespace SeasonStats.Controllers
 {
-    [Produces("application/json")]
     [Route("api/Match")]
     public class MatchController : Controller
     {
@@ -41,14 +38,17 @@ namespace SeasonStats.Controllers
             return View("BestOfNView");
         }
 
-        [HttpPost()]
+        [HttpPost]
         public async Task<IActionResult> CreateMatch(string name1, string name2, int[] scores)
         {
+            if (name1 == null) throw new ArgumentNullException(nameof(name1));
+            if (name2 == null) throw new ArgumentNullException(nameof(name2));
+
             var player1 = await playerRepository.GetOneAsync(name1);
             var player2 = await playerRepository.GetOneAsync(name2);
 
-            if (player1 == null || player2 == null)
-                throw new KeyNotFoundException("One or two players not found");
+            if (player1 == null) throw new KeyNotFoundException(nameof(name1));
+            if (player2 == null) throw new KeyNotFoundException(nameof(name2));
 
             var match = new Match(scores.Length / 2);
 

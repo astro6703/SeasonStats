@@ -1,7 +1,6 @@
 ﻿using System;
 using Xunit;
 
-
 namespace SeasonStats.Model.Tests
 {
     public class PlayerTests

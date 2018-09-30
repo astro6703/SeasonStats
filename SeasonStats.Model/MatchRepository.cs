@@ -25,6 +25,8 @@ namespace SeasonStats.Model
 
         public async Task SaveOneAsync(Match match)
         {
+            if (match == null) throw new ArgumentNullException(nameof(match));
+
             var db = client.GetDatabase("SeasonStats");
 
             await db.GetCollection<Match>("Matches").InsertOneAsync(match);

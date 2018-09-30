@@ -19,6 +19,8 @@ namespace SeasonStats.Model
 
         public async Task<Player> GetOneAsync(string name)
         {
+            if (name == null) throw new ArgumentNullException(nameof(name));
+
             var db = client.GetDatabase("SeasonStats");
 
             var collection = db.GetCollection<Player>("Players")
@@ -40,6 +42,8 @@ namespace SeasonStats.Model
 
         public async Task SaveOneAsync(Player player)
         {
+            if (player == null) throw new ArgumentNullException(nameof(player));
+
             var db = client.GetDatabase("SeasonStats");
 
             player.Id = player.Id ?? ObjectId.GenerateNewId();

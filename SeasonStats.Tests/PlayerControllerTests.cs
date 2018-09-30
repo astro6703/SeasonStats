@@ -3,6 +3,7 @@ using SeasonStats.Model;
 using NSubstitute;
 using Xunit;
 using System.Threading.Tasks;
+using System;
 
 namespace SeasonStats.Tests
 {
@@ -21,14 +22,26 @@ namespace SeasonStats.Tests
         }
 
         [Fact]
-        public async Task PlayerRepositiryGetAllGetsCalled()
+        public async Task PlayerRepositiryGetAllReturnsPlayersFromRepository()
         {
-            IPlayerRepository playerRepository = Substitute.For<IPlayerRepository>();
+            var playerRepository = Substitute.For<IPlayerRepository>();
             var controller = new PlayerController(playerRepository);
 
-            await controller.GetAll();
+            var expected = new Player[] { new Player("Gleb"), new Player("Not Gleb") };
+            playerRepository.GetAllAsync().Returns(expected);
 
-            await playerRepository.Received().GetAllAsync();
+            var actual = await controller.GetAll();
+
+            Assert.Equal(expected, actual);
+        }
+
+        [Fact]
+        public async Task PlayerController_SaveOneAsyncThrowsArgumentNullException()
+        {
+            var repository = Substitute.For<IPlayerRepository>();
+            var controller = new PlayerController(repository);
+
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await controller.SaveOne(null));
         }
     }
 }
