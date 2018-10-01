@@ -39,7 +39,7 @@ namespace SeasonStats.Controllers
         }
 
         [HttpPost]
-        public async Task<IActionResult> CreateMatch(string name1, string name2, int[] scores)
+        public async Task<IActionResult> Create(string name1, string name2, int[] scores)
         {
             if (name1 == null) throw new ArgumentNullException(nameof(name1));
             if (name2 == null) throw new ArgumentNullException(nameof(name2));
@@ -47,8 +47,7 @@ namespace SeasonStats.Controllers
             var player1 = await playerRepository.GetOneAsync(name1);
             var player2 = await playerRepository.GetOneAsync(name2);
 
-            if (player1 == null) throw new KeyNotFoundException(nameof(name1));
-            if (player2 == null) throw new KeyNotFoundException(nameof(name2));
+            if (player1 == null || player2 == null) return NotFound();
 
             var match = new Match(scores.Length / 2);
 

@@ -13,16 +13,12 @@ namespace SeasonStats.Model
         public int MaximalNumberOfSets { get; set; }
         public List<Set> Sets { get; set; } = new List<Set>();
 
-        [BsonIgnore]
         public Player Player1 => Sets.FirstOrDefault()?.Player1;
 
-        [BsonIgnore]
         public Player Player2 => Sets.FirstOrDefault()?.Player2;
 
-        [BsonIgnore]
         public int Player1Score => Sets.Count(set => set.Player1Score > set.Player2Score);
 
-        [BsonIgnore]
         public int Player2Score => Sets.Count(set => set.Player2Score > set.Player1Score);
 
         public Match(int maxSets)

@@ -4,31 +4,32 @@ using NSubstitute;
 using Xunit;
 using System.Threading.Tasks;
 using System;
+using Microsoft.AspNetCore.Mvc;
 
 namespace SeasonStats.Tests
 {
     public class PlayerControllerTests
     {
         [Fact]
-        public async Task PlayerRepositoryGetsCalledWithANameToSave()
+        public async Task PlayerRepository_SaveOneAsyncGetsCalledWithANameToSave()
         {
-            var playerRepository = Substitute.For<IPlayerRepository>();
-            var controller = new PlayerController(playerRepository);
+            var repository = Substitute.For<IPlayerRepository>();
+            var controller = new PlayerController(repository);
             var name = "Gleb";
 
-            await controller.SaveOne(name);
+            await controller.Create(name);
 
-            await playerRepository.Received().SaveOneAsync(new Player(name));
+            await repository.Received().SaveOneAsync(new Player(name));
         }
 
         [Fact]
-        public async Task PlayerRepositiryGetAllReturnsPlayersFromRepository()
+        public async Task PlayerRepositiry_GetAllReturnsPlayersFromRepository()
         {
-            var playerRepository = Substitute.For<IPlayerRepository>();
-            var controller = new PlayerController(playerRepository);
+            var repository = Substitute.For<IPlayerRepository>();
+            var controller = new PlayerController(repository);
 
             var expected = new Player[] { new Player("Gleb"), new Player("Not Gleb") };
-            playerRepository.GetAllAsync().Returns(expected);
+            repository.GetAllAsync().Returns(expected);
 
             var actual = await controller.GetAll();
 
@@ -36,12 +37,24 @@ namespace SeasonStats.Tests
         }
 
         [Fact]
-        public async Task PlayerController_SaveOneAsyncThrowsArgumentNullException()
+        public async Task PlayerController_CreateThrowsArgumentNullException()
         {
             var repository = Substitute.For<IPlayerRepository>();
             var controller = new PlayerController(repository);
 
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await controller.SaveOne(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(async () => await controller.Create(null));
+        }
+
+        [Fact]
+        public async Task PlayerController_CreateReturnsBadRequestWhenPlayerExists()
+        {
+            var repository = Substitute.For<IPlayerRepository>();
+            var controller = new PlayerController(repository);
+
+            var player = "Gleb";
+            repository.GetOneAsync(player).Returns(new Player("Gleb"));
+
+            Assert.IsType<BadRequestResult>(await controller.Create(player));
         }
     }
 }
