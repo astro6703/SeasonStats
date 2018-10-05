@@ -32,7 +32,7 @@ namespace SeasonStats.Controllers
             var player = new Player(name);
 
             if ((await repository.GetOneAsync(name)) != null)
-                return BadRequest();    
+                return BadRequest($"Player {name} already exists");
 
             await repository.SaveOneAsync(player);
 

@@ -47,7 +47,8 @@ namespace SeasonStats.Controllers
             var player1 = await playerRepository.GetOneAsync(name1);
             var player2 = await playerRepository.GetOneAsync(name2);
 
-            if (player1 == null || player2 == null) return NotFound();
+            if (player1 == null) return NotFound($"Player {name1} was not found");
+            if (player2 == null) return NotFound($"Player {name2} was not found");
 
             var match = new Match(scores.Length / 2);
 

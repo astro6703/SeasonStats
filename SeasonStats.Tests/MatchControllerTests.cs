@@ -21,8 +21,7 @@ namespace SeasonStats.Tests
             var scores = new int[] { 11, 5 };
             var player2 = "Gleb";
 
-            await Assert.ThrowsAsync<ArgumentNullException>(async () 
-                => await matchController.Create(null, player2, scores));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => matchController.Create(null, player2, scores));
         }
 
         [Fact]
@@ -35,8 +34,7 @@ namespace SeasonStats.Tests
             var scores = new int[] { 11, 5 };
             var player1 = "Gleb";
 
-            await Assert.ThrowsAsync<ArgumentNullException>(async () 
-                => await matchController.Create(player1, null, scores));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => matchController.Create(player1, null, scores));
         }
 
         [Fact]
@@ -54,7 +52,7 @@ namespace SeasonStats.Tests
 
             var scores = new int[] { 11, 5 };
 
-            Assert.IsType<NotFoundResult>(await matchController.Create(notExistingPlayer, existingPlayer, scores));
+            Assert.IsType<NotFoundObjectResult>(await matchController.Create(notExistingPlayer, existingPlayer, scores));
         }
 
         [Fact]
@@ -72,7 +70,7 @@ namespace SeasonStats.Tests
 
             var scores = new int[] { 11, 5 };
 
-            Assert.IsType<NotFoundResult>(await matchController.Create(existingPlayer, notExistingPlayer, scores));
+            Assert.IsType<NotFoundObjectResult>(await matchController.Create(existingPlayer, notExistingPlayer, scores));
         }
 
         [Fact]

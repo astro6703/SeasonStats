@@ -42,7 +42,7 @@ namespace SeasonStats.Tests
             var repository = Substitute.For<IPlayerRepository>();
             var controller = new PlayerController(repository);
 
-            await Assert.ThrowsAsync<ArgumentNullException>(async () => await controller.Create(null));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => controller.Create(null));
         }
 
         [Fact]
@@ -54,7 +54,7 @@ namespace SeasonStats.Tests
             var player = "Gleb";
             repository.GetOneAsync(player).Returns(new Player("Gleb"));
 
-            Assert.IsType<BadRequestResult>(await controller.Create(player));
+            Assert.IsType<BadRequestObjectResult>(await controller.Create(player));
         }
     }
 }
