@@ -1,11 +1,18 @@
 ﻿using System;
 using System.Collections.Generic;
+using MongoDB.Bson;
+using MongoDB.Bson.Serialization.Attributes;
+using Newtonsoft.Json;
 
 namespace SeasonStats.Model
 {
     public class Player
     {
-        public string Name { get; }
+        [BsonId]
+        [JsonIgnore]
+        public BsonObjectId Id { get; set; }
+
+        public string Name { get; set; }
 
         public Player(string name)
         {

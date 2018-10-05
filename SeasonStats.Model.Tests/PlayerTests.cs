@@ -1,7 +1,5 @@
 ﻿using System;
-using SeasonStats.Model;
 using Xunit;
-
 
 namespace SeasonStats.Model.Tests
 {
