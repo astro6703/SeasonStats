@@ -1,0 +1,10 @@
+﻿#field-and-label {
+    display: inline-block;
+    text-align: center;
+    font-size: 18px;
+    line-height: 300%;
+    width: 66.4%;
+    background-color: lightgray;
+    margin-right: 0.1%;
+    margin-left: 0.1%;
+}

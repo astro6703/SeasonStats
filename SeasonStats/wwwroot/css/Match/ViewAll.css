@@ -1,0 +1,53 @@
+﻿table {
+    width: 100%;
+}
+
+#table-head-row {
+    text-align: center;
+    font-size: 18px;
+}
+
+tr {
+    background-color: lightgrey;
+}
+
+th, td {
+    padding: 10px;
+}
+
+.numbers {
+    width: 4.8%;
+}
+
+.players {
+    width: 14.8%;
+    text-align: center;
+    font-size: 18px;
+}
+
+.scores {
+    width: 64.8%;
+}
+
+.scores-row {
+    text-align: center;
+    vertical-align: central;
+}
+
+.player-one-score {
+    float: left;
+    text-align: center;
+    padding-top: 20px;
+    font-size: 60px;
+    width: 20%;
+    height: 70px;
+}
+
+.player-two-score {
+    float: right;
+    padding-top: 20px;
+    text-align: center;
+    font-size: 60px;
+    width: 20%;
+    height: 70px;
+}

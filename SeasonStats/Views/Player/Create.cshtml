@@ -1,7 +1,20 @@
-﻿<div>
-    <form action="/api/player" method="post">
-        <label for="name">Enter player name</label></ br>
-        <input type="text" id="name" name="name">
-        <input type="submit" name="submit">
+﻿<link href="~/css/Player/Create.css" type="text/css" rel="stylesheet">
+
+<h1 class="headers">Player creation page</h1>
+
+<div>
+
+    <form class="parent" action="/api/player" method="post">
+
+        <div id="field-and-label">
+
+            <label for="field">Enter player name</label>
+            <input class="field" id="field" type="text" name="name" />
+
+        </div>
+
+        <input class="submit" type="submit">
+
     </form>
+
 </div>

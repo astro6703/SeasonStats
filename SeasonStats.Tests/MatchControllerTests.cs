@@ -21,7 +21,7 @@ namespace SeasonStats.Tests
             var scores = new int[] { 11, 5 };
             var player2 = "Gleb";
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => matchController.Create(null, player2, scores));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => matchController.CreateMatch(null, player2, scores));
         }
 
         [Fact]
@@ -34,7 +34,7 @@ namespace SeasonStats.Tests
             var scores = new int[] { 11, 5 };
             var player1 = "Gleb";
 
-            await Assert.ThrowsAsync<ArgumentNullException>(() => matchController.Create(player1, null, scores));
+            await Assert.ThrowsAsync<ArgumentNullException>(() => matchController.CreateMatch(player1, null, scores));
         }
 
         [Fact]
@@ -52,7 +52,7 @@ namespace SeasonStats.Tests
 
             var scores = new int[] { 11, 5 };
 
-            Assert.IsType<NotFoundObjectResult>(await matchController.Create(notExistingPlayer, existingPlayer, scores));
+            Assert.IsType<NotFoundObjectResult>(await matchController.CreateMatch(notExistingPlayer, existingPlayer, scores));
         }
 
         [Fact]
@@ -70,7 +70,7 @@ namespace SeasonStats.Tests
 
             var scores = new int[] { 11, 5 };
 
-            Assert.IsType<NotFoundObjectResult>(await matchController.Create(existingPlayer, notExistingPlayer, scores));
+            Assert.IsType<NotFoundObjectResult>(await matchController.CreateMatch(existingPlayer, notExistingPlayer, scores));
         }
 
         [Fact]
@@ -102,7 +102,7 @@ namespace SeasonStats.Tests
 
             var scores = new int[] { 11, 5 };
 
-            await matchController.Create("Gleb", "Kadetsky", scores);
+            await matchController.CreateMatch("Gleb", "Kadetsky", scores);
 
             var player1 = await playerRepository.GetOneAsync("Gleb");
             var player2 = await playerRepository.GetOneAsync("Kadetsky");
@@ -125,7 +125,7 @@ namespace SeasonStats.Tests
 
             var scores = new int[] { 11, 5, 5, 11, 11, 5 };
 
-            await matchController.Create("Gleb", "Kadetsky", scores);
+            await matchController.CreateMatch("Gleb", "Kadetsky", scores);
 
             var player1 = await playerRepository.GetOneAsync("Gleb");
             var player2 = await playerRepository.GetOneAsync("Kadetsky");
@@ -150,7 +150,7 @@ namespace SeasonStats.Tests
 
             var scores = new int[] { 11, 5, 11, 5, 11, 5, 5, 11, 5, 11, 5, 11, 11, 5 };
 
-            await matchController.Create("Gleb", "Kadetsky", scores);
+            await matchController.CreateMatch("Gleb", "Kadetsky", scores);
 
             var player1 = await playerRepository.GetOneAsync("Gleb");
             var player2 = await playerRepository.GetOneAsync("Kadetsky");

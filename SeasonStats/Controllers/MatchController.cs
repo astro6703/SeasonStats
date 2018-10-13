@@ -18,6 +18,12 @@ namespace SeasonStats.Controllers
             this.playerRepository = playerRepository ?? throw new ArgumentNullException(nameof(playerRepository));
         }
 
+        [Route("index")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<IEnumerable<Match>> GetAll()
         {
@@ -30,16 +36,17 @@ namespace SeasonStats.Controllers
             return View();
         }
 
-        [Route("create/bestofn/")]
+        [Route("create/select/")]
         public IActionResult BestOfN(int bestOf)
         {
             ViewBag.BestOf = bestOf;
 
-            return View("BestOfNView");
+            return View();
         }
 
         [HttpPost]
-        public async Task<IActionResult> Create(string name1, string name2, int[] scores)
+        [Route("create/bestofn/")]
+        public async Task<IActionResult> CreateMatch(string name1, string name2, int[] scores)
         {
             if (name1 == null) throw new ArgumentNullException(nameof(name1));
             if (name2 == null) throw new ArgumentNullException(nameof(name2));
@@ -70,7 +77,7 @@ namespace SeasonStats.Controllers
         {
             ViewBag.Matches = await GetAll();
 
-            return View("AllMatches");
+            return View();
         }
     }
 }

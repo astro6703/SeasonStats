@@ -1,0 +1,10 @@
+﻿#player-and-select {
+    display: inline-block;
+    width: 66.4%;
+    margin-left: 0.1%;
+    margin-right: 0.1%;
+    font-size: 18px;
+    line-height: 300%;
+    background-color: lightgray;
+    text-align: center;
+}

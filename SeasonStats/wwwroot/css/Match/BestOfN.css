@@ -1,0 +1,38 @@
+﻿.players {
+    display: inline-block;
+    width: 49.45%;
+    margin-left: 0.1%;
+    margin-right: 0.1%;
+    font-size: 18px;
+    background-color: lightgray;
+    font-size: 18px;
+    line-height: 300%;
+    text-align: center;
+}
+
+.colon {
+    display: inline-block;
+    width: 0.5%;
+    margin-left: 0.1%;
+    margin-right: 0.1%;
+    font-size: 18px;
+    text-align: center;
+    line-height: 300%;
+}
+
+.matches {
+    display: inline-block;
+    width: 49.45%;
+    margin-top: 10px;
+    margin-bottom: 10px;
+    margin-left: 0.1%;
+    margin-right: 0.1%;
+    background-color: lightgray;
+    font-size: 18px;
+    line-height: 300%;
+    text-align: center;
+}
+
+form{
+    text-align: center;
+}

@@ -18,6 +18,12 @@ namespace SeasonStats.Controllers
             this.repository = repository ?? throw new ArgumentNullException(nameof(repository));
         }
 
+        [Route("index")]
+        public IActionResult Index()
+        {
+            return View();
+        }
+
         [HttpGet]
         public async Task<IEnumerable<Player>> GetAll()
         {
@@ -50,7 +56,7 @@ namespace SeasonStats.Controllers
         {
             ViewBag.Players = await GetAll();
 
-            return View("AllPlayers");
+            return View();
         }
     }
 }

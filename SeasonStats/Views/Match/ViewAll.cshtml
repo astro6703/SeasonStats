@@ -1,0 +1,52 @@
+﻿<link href="~/css/Match/ViewAll.css" type="text/css" rel="stylesheet">
+
+<h1 class="headers">SeasonStats matches list</h1>
+
+<table>
+
+    <thead>
+
+        <tr id="table-head-row">
+
+            <th class="number" scope="col">№</th>
+            <th class="players" scope="col">Player 1</th>
+            <th class="scores" scope="col">Score</th>
+            <th class="players" scope="col">Player 2</th>
+
+        </tr>
+
+    </thead>
+
+    <tbody>
+
+            @for (int i = 1; i <= ViewBag.Matches.Count; i++)
+            {
+                <tr>
+
+                    <td class="number">@(i)</td>
+                    <td class="players">@(ViewBag.Matches[i - 1].Player1.Name)</td>
+                    <td class="scores">
+
+                    <div class="player-one-score">@(ViewBag.Matches[i - 1].Player1Score)</div>    
+                    <div class="player-two-score">@(ViewBag.Matches[i - 1].Player2Score)</div>
+
+                        @foreach (var set in ViewBag.Matches[i - 1].Sets)
+                        {
+                            <div class="scores-row">
+
+                                <span>@($"{set.Player1Score:00}")</span>
+                                <strong>:</strong>
+                                <span>@($"{set.Player2Score:00}")</span>
+
+                            </div>
+                        }
+
+                    </td>
+
+                    <td class="players">@(ViewBag.Matches[i - 1].Player2.Name)</td>
+
+                </tr>
+            }
+    </tbody>
+
+</table>

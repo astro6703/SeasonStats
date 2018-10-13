@@ -1,12 +1,28 @@
-﻿<div>
-    <form action="@Url.Action("BestOfN", "Match")" method="post">
-        <label for="matchtypes">Select match type:</label>
-        <select name="bestOf">
-            <option value="1">Best of 1</option>
-            <option value="3">Best of 3</option>
-            <option value="5">Best of 5</option>
-            <option value="7">Best of 7</option>
-        </select>
-        <input type="submit" name="submit">
+﻿<link href="~/css/Match/Create.css" type="text/css" rel="stylesheet">
+
+<h1 class="headers">Match creation page</h1>
+
+<div>
+
+    <form class="parent" action="@Url.Action("BestOfN", "Match")" method="post">
+
+        <div id="player-and-select">
+
+            <label for="select">Select match type:</label>
+
+            <select class="select" id="select" name="bestOf">
+
+                <option value="1">Best of 1</option>
+                <option value="3">Best of 3</option>
+                <option value="5">Best of 5</option>
+                <option value="7">Best of 7</option>
+
+            </select>
+
+        </div>
+
+        <input class="submit" type="submit" name="submit">
+
     </form>
+
 </div>

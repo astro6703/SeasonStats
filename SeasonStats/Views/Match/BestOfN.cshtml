@@ -1,0 +1,50 @@
+﻿<link href="~/css/Match/BestOfN.css" type="text/css" rel="stylesheet">
+
+<div>
+
+    <form class="parent" action="@Url.Action("CreateMatch", "Match")" method="post">
+        
+        <h1 class="headers">Enter match players</h1>
+        
+        <div class="parent">
+            
+            <div class="players">
+                <label for="name1">Player 1</label>
+                <input class="field" type="text" id="name1" name="name1" required>
+            </div>
+
+            <span class="colon">:</span>
+
+            <div class="players">
+                <input class="field" type="text" id="name2" name="name2" required>
+                <label for="name2">Player 2</label>
+            </div>
+
+        </div>
+
+        <h1 class="headers">Enter sets scores</h1>
+
+        @for (int i = 1; i <= ViewBag.BestOf * 2; i += 2)
+        {
+            <div class="parent">
+
+                <div class="matches">
+                    <label for="score@(i - 1)">Player 1 score</label>
+                    <input class="field" type="number" id="score@(i - 1)" name="scores[@(i - 1)]" value="0" required>
+                </div>
+
+                <span class="colon">:</span>
+
+                <div class="matches">
+                    <input class="field" type="number" id="score@(i)" name="scores[@(i)]" value="0" required>
+                    <label for="score@(i)">Player 2 score</label>
+                </div>
+
+            </div>
+        }
+
+        <input class="submit" type="submit">
+
+    </form>
+
+</div>

@@ -2,11 +2,32 @@
     ViewData["Title"] = "Season stats main page";
 }
 
-<h1>Table tennis stats</h1>
+<link href="~/css/Home/Index.css" type="text/css" rel="stylesheet">
+
+<h1 class="headers">Table tennis stats</h1>
+
 <div>
-    <h2>What would you like to do?</h2>
-    <a href="@Url.Action("Create", "Player")">Create player</a><br>
-    <a href="@Url.Action("Create", "Match")">Create match</a><br>
-    <a href="@Url.Action("ViewAll", "Player")">List all players</a><br>
-    <a href="@Url.Action("ViewAll", "Match")">List all matches</a><br>
+
+    <p class="introduction">
+        Season stats is the simple application to keep track of stats of your
+        small group of table tennis amateurs. With our help you will always
+        be able to check who is the current champion of your personal
+        tournament or who is the champion of your summer vacation.
+    </p>
+    
+    <p class="introduction">
+        Add tournaments, play tennis and make sure to add your results to us.
+    </p>
+    
+    <h2 class="headers">Options:</h2>
+
+    <div class="parent">
+
+        <a class="main-menu-items" href="@Url.Action("Create", "Player")">Create player</a>
+        <a class="main-menu-items" href="@Url.Action("Create", "Match")">Create match</a>
+        <a class="main-menu-items" href="@Url.Action("ViewAll", "Player")">List all players</a>
+        <a class="main-menu-items" href="@Url.Action("ViewAll", "Match")">List all matches</a>
+
+    </div>
+
 </div>
